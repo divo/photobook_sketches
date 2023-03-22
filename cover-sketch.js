@@ -8,6 +8,7 @@ export const cover_sketch = ({width, height, canvas, data}) => {
 
     const img = data['img'];
     const name = data['name'];
+    const width_offset = data['width_offset'];
     context.fillStyle = 'white';
     context.fillRect(0, 0, width, height);
 
@@ -19,13 +20,13 @@ export const cover_sketch = ({width, height, canvas, data}) => {
 
     const s_height = img.height * scale;
 
-    context.drawImage(img, x, y, (img.width * scale), s_height);
+    context.drawImage(img, x + width_offset, y, (img.width * scale), s_height);
 
     const fontSize = 6; //TODO: What is going on with the scaling here? What is canvas sketch doing? It's all in mm??
     context.fillStyle = 'black';
     context.textAlign = 'center';
     context.textBaseline = 'bottom';
-    draw_text(name, width / 2, s_height + (( height - s_height) / 2), "normal", fontSize, context);
+    draw_text(name, width_offset + (width / 2), s_height + (( height - s_height) / 2), "normal", fontSize, context);
  };
 };
 
