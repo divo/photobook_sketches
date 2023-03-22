@@ -13,7 +13,7 @@ export const cover_sketch = ({width, height, canvas, data}) => {
     context.fillRect(0, 0, width, height);
 
     if (is_landscape(img)) {
-      scale = width / img.width;
+      scale = (width - width_offset) / img.width;
     } else {
       scale = height / img.height; // TODO: How to layout landscape covers? Easiest way is to simply not allow it
     }
@@ -26,7 +26,7 @@ export const cover_sketch = ({width, height, canvas, data}) => {
     context.fillStyle = 'black';
     context.textAlign = 'center';
     context.textBaseline = 'bottom';
-    draw_text(name, width_offset + (width / 2), s_height + (( height - s_height) / 2), "normal", fontSize, context);
+    draw_text(name, (width_offset / 2) + (width / 2), s_height + (( height - s_height) / 2), "normal", fontSize, context);
  };
 };
 
