@@ -1,0 +1,9 @@
+# Publish
+Bump <version> in package.json
+npm publish --access public
+git tag v<version>
+git push origin v<version>
+
+# Install
+Node: npm update @divo/photobook-sketches
+Rails: Go to https://generator.jspm.io and use the generator. The bump the tag in importmap.rb
