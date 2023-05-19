@@ -1,6 +1,6 @@
 {
   "name": "@divo/photobook-sketches",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "canvas-sketch code to render a photo album",
   "main": "app.js",
   "type": "module",
