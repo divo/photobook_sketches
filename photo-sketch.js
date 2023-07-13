@@ -6,9 +6,9 @@ export const photo_sketch = ({width, height, canvas, data}) => {
   const textSafeArea = 8;
   const img = data['img'];
   const address = data['address'];
-  const rot = data['transform_rot'];
-  const scale_x = data['transform_scale_x'];
-  const scale_y = data['transform_scale_y'];
+  const rot = data['transform_rot'] || 0;
+  const scale_x = data['transform_scale_x'] || 1;
+  const scale_y = data['transform_scale_y'] || 1;
   let caption = data['caption'];
 
   if (caption == null) {
@@ -67,6 +67,7 @@ const calculatePositions = (safe_area, img, width, height, rot) => {
 
   return result;
 }
+
 const is_landscape = (image, rot) => {
   if (rot == 90 || rot == 270) {
     return image.width < image.height;
