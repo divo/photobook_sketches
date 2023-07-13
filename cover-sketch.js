@@ -10,10 +10,13 @@ export const cover_sketch = ({width, height, canvas, data}) => {
     const logo = data['logo_img'];
     const name = data['name'];
     const width_offset = data['width_offset'];
+    const rot = data['transform_rot'] || 0;
+    const scale_x = data['transform_scale_x'] || 1;
+    const scale_y = data['transform_scale_y'] || 1;
     context.fillStyle = 'white';
     context.fillRect(0, 0, width, height);
 
-    if (is_landscape(img)) {
+    if (is_landscape(img, rot)) {
       scale = (width - width_offset) / img.width;
     } else {
       scale = height / img.height; // TODO: How to layout landscape covers? Easiest way is to simply not allow it
@@ -28,7 +31,11 @@ export const cover_sketch = ({width, height, canvas, data}) => {
       context.drawImage(logo, logo_x, logo_y, (logo.width * scale), logo.height * scale);
     }
 
+    context.save();
+    context.rotate(rot*Math.PI/180);
+    context.scale(scale_x, scale_y);
     context.drawImage(img, x + width_offset, y, (img.width * scale), s_height);
+    context.restore();
 
     const fontSize = 6; //TODO: What is going on with the scaling here? What is canvas sketch doing? It's all in mm??
     context.fillStyle = 'black';
@@ -38,6 +45,10 @@ export const cover_sketch = ({width, height, canvas, data}) => {
  };
 };
 
-const is_landscape = (image) => {
-  return image.width > image.height;
+const is_landscape = (image, rot) => {
+  if (rot == 90 || rot == 270) {
+    return image.width < image.height;
+  } else {
+    return image.width > image.height;
+  }
 };
