@@ -6,9 +6,6 @@ export const photo_sketch = ({width, height, canvas, data}) => {
   const textSafeArea = 8;
   const img = data['img'];
   const address = data['address'];
-  const rot = data['transform_rot'];
-  const scale_x = data['transform_scale_x'];
-  const scale_y = data['transform_scale_y'];
   let caption = data['caption'];
 
   if (caption == null) {
@@ -18,7 +15,7 @@ export const photo_sketch = ({width, height, canvas, data}) => {
   let pos = {};
 
   do {
-    pos = calculatePositions(safe_area, img, width, height, rot);
+    pos = calculatePositions(safe_area, img, width, height);
     safe_area = safe_area + 5;
   } while (address != '' && isTextCropped(pos.y, pos.s_height, textSafeArea, fontSize, height))
 
@@ -26,11 +23,7 @@ export const photo_sketch = ({width, height, canvas, data}) => {
     context.fillStyle = 'white';
     context.fillRect(0, 0, width, height);
 
-    context.save();
-    context.rotate(rot*Math.PI/180);
-    context.scale(scale_x, scale_y);
     context.drawImage(img, pos.x, pos.y, pos.s_width, pos.s_height);
-    context.restore();
 
     context.fillStyle = 'rgb(126, 123, 127)';
     context.textAlign = 'center';
@@ -46,10 +39,10 @@ const isTextCropped = (y, s_height, textSafeArea, fontSize, height) => {
   return (y + s_height + textSafeArea ) > height - (textSafeArea / 2);
 }
 
-const calculatePositions = (safe_area, img, width, height, rot) => {
+const calculatePositions = (safe_area, img, width, height) => {
   let result = {};
 
-  if (is_landscape(img, rot)) {
+  if (is_landscape(img)) {
     result.scale = width / img.width;
     result.ratio = img.width / img.height;
     result.s_width = (img.width * result.scale) - (safe_area * 2)
@@ -67,10 +60,6 @@ const calculatePositions = (safe_area, img, width, height, rot) => {
 
   return result;
 }
-const is_landscape = (image, rot) => {
-  if (rot == 90 || rot == 270) {
-    return image.width < image.height;
-  } else {
-    return image.width > image.height;
-  }
+const is_landscape = (image) => {
+  return image.width > image.height;
 };
